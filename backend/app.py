@@ -1,12 +1,16 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS 
 import pandas as pd
 import numpy as np
 from scipy import stats
-import os
 
 app = Flask(__name__)
-CORS(app) 
+
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"status": "Backend Python BERJALAN!", "siap_hitung": True})
 
 def run_probit_analysis(df):
     try:
@@ -25,7 +29,6 @@ def run_probit_analysis(df):
             return {"success": False, "error": "Data perlakuan kosong. Masukkan konsentrasi > 0."}
 
         df_treat['P_obs'] = df_treat['Mortalitas'] / 100.0
-        
         df_treat['P_abbott'] = (df_treat['P_obs'] - p_control) / (1.0 - p_control)
         df_treat['P_abbott'] = df_treat['P_abbott'].clip(lower=0.0)
 
@@ -37,7 +40,6 @@ def run_probit_analysis(df):
             return p
 
         df_treat['P_final'] = df_treat.apply(adjust_fraction, axis=1)
-
         df_treat['Log_X'] = np.log10(df_treat['Konsentrasi'])
         df_treat['Probit_Y'] = stats.norm.ppf(df_treat['P_final']) + 5
 
@@ -46,15 +48,11 @@ def run_probit_analysis(df):
         log_ld50 = (5 - intercept) / slope
         ld50_value = 10 ** log_ld50
 
-        empirical_data = [
-            {"log_conc": round(row['Log_X'], 4), "probit": round(row['Probit_Y'], 4)}
-            for _, row in df_treat.iterrows()
-        ]
-
+        empirical_data = [{"log_conc": round(row['Log_X'], 4), "probit": round(row['Probit_Y'], 4)} for _, row in df_treat.iterrows()]
+        
         x_min, x_max = df_treat['Log_X'].min(), df_treat['Log_X'].max()
         x_trend = np.linspace(x_min, x_max, 10)
         y_trend = slope * x_trend + intercept
-        
         trend_data = [{"log_conc": round(x, 4), "probit": round(y, 4)} for x, y in zip(x_trend, y_trend)]
 
         sign = "+" if intercept >= 0 else "-"
@@ -69,17 +67,14 @@ def run_probit_analysis(df):
             "curve_data": trend_data,
             "empirical_data": empirical_data
         }
-
     except Exception as e:
+        print(f"ERROR PYTHON: {e}")
         return {"success": False, "error": str(e)}
-
-@app.route('/', methods=['GET'])
-def home():
-    return jsonify({"status": "BioCalc API is Running", "version": "1.0.0"})
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
     data = request.json
+    print("Menerima Data dari React:", data) 
     if not data or 'rows' not in data:
         return jsonify({"success": False, "error": "No data provided"}), 400
     df = pd.DataFrame(data['rows'])
@@ -87,5 +82,6 @@ def analyze():
     return jsonify(result)
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    import os
+    port = int(os.environ.get('PORT', 5000)) 
+    app.run(host='0.0.0.0', port=port)

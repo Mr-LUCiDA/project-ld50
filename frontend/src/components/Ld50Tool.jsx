@@ -7,6 +7,7 @@ import {
 import { Trash2, Plus, Calculator, Activity, AlertCircle, BarChart3 } from 'lucide-react';
 
 export function Ld50Tool() {
+    // Data Default (Pastikan menggunakan TITIK untuk desimal di sini)
     const [rows, setRows] = useState([
         { Konsentrasi: "0", Total: "12", Mortalitas: "22.25" },
         { Konsentrasi: "1000", Total: "12", Mortalitas: "33.40" },
@@ -19,14 +20,18 @@ export function Ld50Tool() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Handler Khusus: Memaksa Titik Desimal
     const handleInputChange = (index, field, value) => {
         const newRows = [...rows];
         
+        // Ganti Koma dengan Titik secara otomatis jika user mengetik koma
         let cleanValue = value.replace(/,/g, '.');
         
+        // Validasi: Hanya boleh angka dan satu titik
         if (field === 'Mortalitas' || field === 'Konsentrasi' || field === 'Total') {
+             // Regex: Hanya angka 0-9 dan titik (.)
              if (!/^[0-9.]*$/.test(cleanValue)) {
-                 return; 
+                 return; // Abaikan input jika bukan angka/titik
              }
         }
         
@@ -67,6 +72,7 @@ export function Ld50Tool() {
     return (
         <div className="dashboard-grid">
             
+            {/* --- PANEL KIRI: DATA INPUT --- */}
             <div className="panel">
                 <div className="panel-header">
                     <Calculator size={20} className="text-cyan-400" />
@@ -75,18 +81,20 @@ export function Ld50Tool() {
 
                 <div className="input-table-container">
                     
+                    {/* Header Tabel */}
                     <div className="table-grid table-header">
                         <div className="header-label">Konsentrasi<br/><span style={{fontSize:'0.6rem', opacity:0.6}}>(PPM)</span></div>
                         <div className="header-label">Total<br/><span style={{fontSize:'0.6rem', opacity:0.6}}>SAMPEL</span></div>
                         <div className="header-label" style={{color: '#f472b6'}}>% Mortalitas<br/><span style={{fontSize:'0.6rem', opacity:0.6}}>(INPUT)</span></div>
-                        <div className="header-label"> </div>
+                        <div className="header-label">#</div>
                     </div>
 
+                    {/* Baris Input */}
                     {rows.map((row, index) => (
                         <div key={index} className="table-grid table-row">
                             <input 
                                 type="text"
-                                inputMode="decimal"
+                                inputMode="decimal" // Memunculkan numpad di HP
                                 placeholder="0"
                                 className="data-input"
                                 value={row.Konsentrasi} 
@@ -137,6 +145,7 @@ export function Ld50Tool() {
                 )}
             </div>
 
+            {/* --- PANEL KANAN: GRAFIK --- */}
             <div className="panel" style={{minHeight: '600px', display: 'flex', flexDirection: 'column'}}>
                 <div className="panel-header" style={{justifyContent: 'space-between', borderBottom: 'none'}}>
                     <div style={{display:'flex', gap:'0.75rem', alignItems:'center'}}>

@@ -8,7 +8,7 @@ function App() {
     <div className="container">
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', color: 'white' }}>
-          <Dna color="#38bdf8" /> BioCalc
+          <Dna color="#38bdf8" /> LD50 Calc
         </div>
         <a href="https://faizafadilla.my.id" style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '0.9rem' }}>
           ← Back to Portfolio
