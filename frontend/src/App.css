@@ -1,31 +1,25 @@
-/* FILE: frontend/src/App.css */
-
-/* --- GLOBAL SETTINGS --- */
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #0f172a; /* Slate 900 */
+  background-color: #0f172a; 
   color: #f8fafc;
 }
 
 .container { max-width: 1280px; margin: 0 auto; padding: 2rem; }
 
-/* --- HEADER --- */
 .header-hero { text-align: center; margin-bottom: 3rem; border-bottom: 1px solid #1e293b; padding-bottom: 2rem; }
 .title { font-size: 2.2rem; font-weight: 800; color: #38bdf8; margin: 0; }
 .subtitle { color: #94a3b8; margin-top: 0.5rem; }
 
-/* --- LAYOUT GRID (Kiri Input, Kanan Grafik) --- */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 480px 1fr; /* Kolom kiri sedikit diperlebar agar lega */
+  grid-template-columns: 480px 1fr; 
   gap: 2rem;
   align-items: start;
 }
 
 @media (max-width: 1024px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
-/* --- PANEL BOX --- */
 .panel {
   background: #1e293b;
   border: 1px solid #334155;
@@ -41,24 +35,20 @@ body {
   color: #e2e8f0; font-weight: 600; font-size: 1.1rem;
 }
 
-/* --- TABEL INPUT (PERBAIKAN UTAMA) --- */
 .input-table-container {
-  background: #0f172a; /* Latar tabel lebih gelap */
+  background: #0f172a; 
   border-radius: 0.75rem;
   padding: 1rem;
   border: 1px solid #334155;
 }
 
-/* Grid System untuk meluruskan kolom */
 .table-grid {
   display: grid;
-  /* Atur lebar kolom: Konsentrasi, Total, Mortalitas, Hapus */
   grid-template-columns: 1fr 1fr 1fr 30px; 
   gap: 10px;
   align-items: center;
 }
 
-/* Header Tabel */
 .table-header {
   margin-bottom: 0.5rem;
   padding-bottom: 0.5rem;
@@ -71,28 +61,25 @@ body {
   text-align: center;
 }
 
-/* Baris Data */
 .table-row {
   padding: 0.25rem 0;
   border-bottom: 1px solid #1e293b;
 }
 .table-row:last-child { border-bottom: none; }
 
-/* INPUT FIELD (Dibuat Menyatu) */
 .data-input {
   width: 100%;
-  background: transparent; /* Transparan, tidak ada kotak */
-  border: 1px solid transparent; /* Border hilang */
+  background: transparent; 
+  border: 1px solid transparent; 
   border-radius: 6px;
   color: #f8fafc;
   padding: 0.5rem;
-  font-family: 'JetBrains Mono', monospace; /* Font coding */
+  font-family: 'JetBrains Mono', monospace; 
   font-size: 0.95rem;
   text-align: center;
   transition: all 0.2s;
 }
 
-/* Saat diklik baru muncul border biru */
 .data-input:focus {
   background: #1e293b;
   border-color: #38bdf8;
@@ -100,7 +87,6 @@ body {
 }
 .data-input::placeholder { color: #334155; opacity: 0.5; }
 
-/* Tombol Hapus & Tambah */
 .btn-delete {
   background: transparent; border: none; color: #475569;
   cursor: pointer; display: flex; justify-content: center;
@@ -117,7 +103,6 @@ body {
 }
 .btn-add-row:hover { background: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
 
-/* Tombol Hitung */
 .btn-calculate {
   margin-top: 1.5rem; width: 100%; padding: 1rem;
   background: linear-gradient(135deg, #0ea5e9, #2563eb);
@@ -129,7 +114,6 @@ body {
 .btn-calculate:hover { transform: translateY(-2px); }
 .btn-calculate:disabled { opacity: 0.7; transform: none; }
 
-/* Hasil & Grafik */
 .stats-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
 .stat-card { background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.75rem; border: 1px solid #334155; text-align: center; }
 .stat-value { font-size: 1.5rem; font-weight: 800; color: white; }
